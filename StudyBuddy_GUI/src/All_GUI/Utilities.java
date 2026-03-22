@@ -12,4 +12,9 @@ public class Utilities {
         label.setVisible(true);
         return label;
     }
+    //commonly used fonts
+    public static final Font WINDOWS_BUTTONS_FONT = new Font("SansSerif", Font.BOLD, 16);
+
+    //color palette
+    public static final Color ORANGE_MEDIUM = new Color(255, 167, 66);
 }
