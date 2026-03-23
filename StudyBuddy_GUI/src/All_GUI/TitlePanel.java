@@ -121,14 +121,17 @@ public class TitlePanel extends JPanel {
         JMenuItem home = new JMenuItem("Home");
         JMenuItem tasks = new JMenuItem("Tasks");
         JMenuItem settings = new JMenuItem("Settings");
+        JMenuItem timer = new JMenuItem("Timer");
         //adding buttons to menu
         menu.add(home);
         menu.add(tasks);
         menu.add(settings);
+        menu.add(timer);
         //set up listener
         home.addActionListener(e -> listener.onHomeSelected());
         tasks.addActionListener(e -> listener.onTasksSelected());
         settings.addActionListener(e -> listener.onSettingsSelected());
+        timer.addActionListener(e -> listener.onTimerSelected());
 
         //add action Listener
         button.addActionListener(e ->
