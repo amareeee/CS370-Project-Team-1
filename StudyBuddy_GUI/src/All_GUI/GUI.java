@@ -13,6 +13,7 @@ public class GUI extends JFrame implements MenuListener{
 
         setUndecorated(true); //remove title bar and making custom
         setLayout(new BorderLayout());
+        TimerPanel timerPanel = new TimerPanel();
 
         //make cardlayout
         cardLayout = new CardLayout();
@@ -20,13 +21,14 @@ public class GUI extends JFrame implements MenuListener{
         contentPanel.add(new BuddyPage(), "HOME");
         contentPanel.add(new TasksPage(), "TASKS");
         contentPanel.add(new SettingsPage(), "SETTINGS");
+        contentPanel.add(new SettingsPage(), "TIMER");
 
         //add contentpanel to fram
         add(contentPanel, BorderLayout.CENTER);
 
         //add panels
         add(new BuddyPage(), BorderLayout.SOUTH);
-        add(new QuickTasks(), BorderLayout.EAST);
+        add(new QuickTasks(timerPanel), BorderLayout.EAST);
         add(new TitlePanel(this), BorderLayout.NORTH);
 
         setSize(1200, 800);
@@ -43,7 +45,9 @@ public class GUI extends JFrame implements MenuListener{
     public void onSettingsSelected() {
         cardLayout.show(contentPanel, "SETTINGS");
     }
-
+    public void onTimerSelected() {
+        cardLayout.show(contentPanel, "TIMER");
+    }
 }
 
 
