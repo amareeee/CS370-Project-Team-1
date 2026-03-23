@@ -31,10 +31,12 @@ public class MenuPanel extends JPanel {
         JMenuItem home = new JMenuItem("Home");
         JMenuItem tasks = new JMenuItem("Tasks");
         JMenuItem settings = new JMenuItem("Settings");
+        JMenuitem timer = new JMenuItem("Timer");
 
         menu.add(home);
         menu.add(tasks);
         menu.add(settings);
+        menu.add(timer);
 
         //add action Listener
         button.addActionListener(e ->
