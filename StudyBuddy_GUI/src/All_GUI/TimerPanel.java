@@ -1,4 +1,4 @@
-package ALL_GUI;
+package All_GUI;
 
 import javax.swing.*;
 import java.awt.*;
