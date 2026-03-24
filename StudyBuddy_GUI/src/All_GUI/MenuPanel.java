@@ -9,7 +9,7 @@ public class MenuPanel extends JPanel {
         setLayout(new BorderLayout());
 
         //load image and scale it
-        ImageIcon icon = new ImageIcon(getClass().getResource("/hamburgermenu.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/resources/hamburgermenu.png"));
         Image scaled = icon.getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaled);
 
@@ -31,15 +31,21 @@ public class MenuPanel extends JPanel {
         JMenuItem home = new JMenuItem("Home");
         JMenuItem tasks = new JMenuItem("Tasks");
         JMenuItem settings = new JMenuItem("Settings");
-        JMenuitem timer = new JMenuItem("Timer");
+        JMenuItem timer = new JMenuItem("Timer");
 
         menu.add(home);
         menu.add(tasks);
         menu.add(settings);
         menu.add(timer);
 
+        //add action listeners for menu items
+        home.addActionListener(e -> System.out.println("Home selected"));
+        tasks.addActionListener(e -> System.out.println("Tasks selected"));
+        settings.addActionListener(e -> System.out.println("Settings selected"));
+        timer.addActionListener(e -> System.out.println("Timer selected"));
+
         //add action Listener
         button.addActionListener(e ->
-            menu.show(button, 0, button.getHeight()));
+                menu.show(button, 0, button.getHeight()));
     }
 }
