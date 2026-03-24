@@ -16,8 +16,8 @@ public class BuddyPage extends JPanel{
         createHealthBarSpot();
         createCreatureArea();
 
-        add(healthBarSpot, BorderLayout.NORTH);
         add(creatureImage, BorderLayout.CENTER);
+        add(healthBarSpot, BorderLayout.SOUTH);
     }
 
     private void createHealthBarSpot() {
