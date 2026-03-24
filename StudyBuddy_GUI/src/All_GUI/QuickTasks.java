@@ -11,6 +11,7 @@ public class QuickTasks extends JPanel{
     private TimerPanel timerPanel;
     
     public QuickTasks() {
+        this.timerPanel = timerPanel;
         backgroundImage = new ImageIcon(getClass().getResource("/quicktasksBG.png")).getImage();
         setUpPanel();
         createParts();
