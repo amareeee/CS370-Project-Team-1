@@ -105,7 +105,7 @@ public class TitlePanel extends JPanel {
 
     private JPanel createMenu() {
         //load image and scale it
-        ImageIcon icon = new ImageIcon(getClass().getResource("/hamburgermenu.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/resources/hamburgermenu.png"));
         Image scaled = icon.getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaled);
 
