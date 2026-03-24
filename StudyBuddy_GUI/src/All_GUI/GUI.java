@@ -1,6 +1,5 @@
 package All_GUI;
 
-import javax.smartcardio.Card;
 import javax.swing.*;
 import java.awt.*;
 
@@ -21,13 +20,12 @@ public class GUI extends JFrame implements MenuListener{
         contentPanel.add(new BuddyPage(), "HOME");
         contentPanel.add(new TasksPage(), "TASKS");
         contentPanel.add(new SettingsPage(), "SETTINGS");
-        contentPanel.add(new SettingsPage(), "TIMER");
+        contentPanel.add(timerPanel, "TIMER");
 
-        //add contentpanel to fram
+        //add contentpanel to frame
         add(contentPanel, BorderLayout.CENTER);
 
         //add panels
-        add(new BuddyPage(), BorderLayout.SOUTH);
         add(new QuickTasks(timerPanel), BorderLayout.EAST);
         add(new TitlePanel(this), BorderLayout.NORTH);
 
