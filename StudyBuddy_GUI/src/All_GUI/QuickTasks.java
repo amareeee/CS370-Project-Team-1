@@ -9,10 +9,10 @@ public class QuickTasks extends JPanel{
     private JButton addTaskButton;
     private JButton startSessionButton;
     private TimerPanel timerPanel;
-    
-    public QuickTasks() {
+
+    public QuickTasks(TimerPanel timerPanel) {
         this.timerPanel = timerPanel;
-        backgroundImage = new ImageIcon(getClass().getResource("/quicktasksBG.png")).getImage();
+        backgroundImage = new ImageIcon(getClass().getResource("/resources/quicktasksBG.png")).getImage();
         setUpPanel();
         createParts();
         components();
@@ -64,11 +64,10 @@ public class QuickTasks extends JPanel{
         add(startSessionButton);
     }
     private void addListeners() {
-        startSessionButton.addActionListener(e -> timerPanel.startSession()); {
-            //call timer function here
-
+        startSessionButton.addActionListener(e -> {
+            timerPanel.startSession();
             System.out.println("Session has begun");
-        }
+        });
     }
     @Override
     protected void paintComponent(Graphics g) {
