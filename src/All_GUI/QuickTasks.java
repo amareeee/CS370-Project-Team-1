@@ -1,34 +1,78 @@
 package All_GUI;
+//import Timer. add function call to addListeners
 
 import javax.swing.*;
 import java.awt.*;
 
 public class QuickTasks extends JPanel{
+    private Image backgroundImage;
+    private JButton addTaskButton;
+    private JButton startSessionButton;
     public QuickTasks() {
-        //creating panel and panel elements
-        setLayout(new BorderLayout());
-        JLabel label = Utilities.createLabel("Quick Tasks", 15, Color.black);
+        backgroundImage = new ImageIcon(getClass().getResource("/quicktasksBG.png")).getImage();
+        setUpPanel();
+        createParts();
+        components();
+    }
 
-        //Add task button and elements
-        JButton button1 = new JButton("Add Task");
-        button1.setPreferredSize(new Dimension(100,50));
+    //want this panel to function more like a widget than anything else
+    //panel layout helper method
+    private void setUpPanel() {
+        setPreferredSize(new Dimension(260, 0));
+        setOpaque(false);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
+    }
 
-        //Start study session button
-        JButton button2 = new JButton("Start Session");
-        button2.setPreferredSize(new Dimension(100, 50));
+    private void createParts() {
+        //setting button size
+        Dimension buttonSize = new Dimension(200,40);
 
-        //setting layout and design of panel
-        JPanel buttonHolder = new JPanel();
-        buttonHolder.setLayout(new BoxLayout(buttonHolder, BoxLayout.Y_AXIS));
-        buttonHolder.add(button1);
-        buttonHolder.add(Box.createVerticalStrut(10));
-        buttonHolder.add(button2);
+        //when creating the buttons, must be set as opaque because we are overriding background
+        addTaskButton = new JButton("Add Task");
+        addTaskButton.setOpaque(true);
+        addTaskButton.setPreferredSize(buttonSize);
+        addTaskButton.setMaximumSize(buttonSize);
+        addTaskButton.setBackground(Utilities.ORANGE_MEDIUM);
+        addTaskButton.setForeground(Color.BLACK);
+        startSessionButton = new JButton("Start Session");
+        startSessionButton.setOpaque(true);
+        startSessionButton.setPreferredSize(buttonSize);
+        startSessionButton.setMaximumSize(buttonSize);
+        startSessionButton.setBackground(Utilities.ORANGE_MEDIUM);
+        startSessionButton.setForeground(Color.BLACK);
 
-        add(label, BorderLayout.NORTH);
-        add(buttonHolder, BorderLayout.CENTER);
+        addTaskButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        startSessionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        setPreferredSize(new Dimension(200, 0));
-        setBorder(BorderFactory.createEmptyBorder(0,0,0,20));
-        setBackground(Color.lightGray);
+        //listeners
+        addListeners();
+    }
+
+    private void components() {
+        JLabel title = new JLabel("Quick Tasks");
+        title.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        add(title);
+        add(Box.createVerticalStrut(15));
+        add(addTaskButton);
+        add(Box.createVerticalStrut(15));
+        add(startSessionButton);
+    }
+    private void addListeners() {
+        startSessionButton.addActionListener(e ->  {
+            //call timer function here
+
+            System.out.println("Session has begun");
+        });
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
     }
 }
