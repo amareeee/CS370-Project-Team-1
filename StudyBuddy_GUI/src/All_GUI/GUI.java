@@ -27,7 +27,7 @@ public class GUI extends JFrame implements MenuListener{
 
         //add panels
         add(new QuickTasks(timerPanel), BorderLayout.EAST);
-        add(new TitlePanel(this), BorderLayout.NORTH);
+        add(new TitlePanel(this, accountManager), BorderLayout.NORTH);
 
         setSize(1200, 800);
         setExtendedState(JFrame.NORMAL);
