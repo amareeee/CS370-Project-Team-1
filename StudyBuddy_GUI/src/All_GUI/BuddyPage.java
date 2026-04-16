@@ -6,8 +6,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class BuddyPage extends JPanel{
-    private JPanel healthBarSpot; //amari uses these
-    private JLabel creatureImage;  //amari uses these
+    private JPanel healthBarSpot; //buddy uses these
+    private JLabel creatureImage;  //buddy uses these
     private Healthbar healthbar;
     public BuddyPage() {
         setLayout(new BorderLayout());

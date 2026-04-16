@@ -30,7 +30,7 @@ public class TitlePanel extends JPanel {
         closeButton.setFocusable(false);
         closeButton.setBorderPainted(false);
         closeButton.setContentAreaFilled(false);;
-        closeButton.setForeground(Color.WHITE);
+        closeButton.setForeground(Color.BLACK);
         closeButton.setFont(Utilities.WINDOWS_BUTTONS_FONT);
         //actionListener for close button
         closeButton.addActionListener(e -> {
@@ -42,7 +42,7 @@ public class TitlePanel extends JPanel {
         minButton.setFocusable(false);
         minButton.setBorderPainted(false);
         minButton.setContentAreaFilled(false);
-        minButton.setForeground(Color.WHITE);
+        minButton.setForeground(Color.BLACK);
         minButton.setFont(Utilities.WINDOWS_BUTTONS_FONT);
         //actionListener for min button
         minButton.addActionListener(e -> {
@@ -55,7 +55,7 @@ public class TitlePanel extends JPanel {
         maxButton.setFocusable(false);
         maxButton.setBorderPainted(false);
         maxButton.setContentAreaFilled(false);
-        maxButton.setForeground(Color.WHITE);
+        maxButton.setForeground(Color.BLACK);
         maxButton.setFont(Utilities.WINDOWS_BUTTONS_FONT);
         //add action listener for maxButton
         maxButton.addActionListener(e -> {

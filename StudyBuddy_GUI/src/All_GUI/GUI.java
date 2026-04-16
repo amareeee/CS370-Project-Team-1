@@ -6,6 +6,7 @@ import java.awt.*;
 public class GUI extends JFrame implements MenuListener{
     private CardLayout cardLayout;
     private JPanel contentPanel;
+    private final TaskManager taskManager = new TaskManager();
 
     public GUI() {
         super("Study Buddy");

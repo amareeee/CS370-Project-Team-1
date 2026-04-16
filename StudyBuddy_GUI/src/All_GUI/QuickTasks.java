@@ -18,7 +18,7 @@ public class QuickTasks extends JPanel{
         components();
     }
 
-    //want this panel to function more like a widget than anything else
+    //want this panel to function more like a widget
     //panel layout helper method
     private void setUpPanel() {
         setPreferredSize(new Dimension(260, 0));
