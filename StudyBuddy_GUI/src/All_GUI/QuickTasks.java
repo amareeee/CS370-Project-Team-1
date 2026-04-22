@@ -9,15 +9,37 @@ public class QuickTasks extends JPanel{
     private JButton addTaskButton;
     private JButton startSessionButton;
     private TimerPanel timerPanel;
+    private TaskManager taskManager;
+    private DefaultListModel<Tasks> listModel;
+    private JList<Tasks> taskList;
 
-    public QuickTasks(TimerPanel timerPanel) {
+    public QuickTasks(TaskManager taskManager, TimerPanel timerpanel) {
+        this.taskManager = taskManager;
         this.timerPanel = timerPanel;
+
         backgroundImage = new ImageIcon(getClass().getResource("/resources/quicktasksBG.png")).getImage();
+        //add any assets here
         setUpPanel();
         createParts();
         components();
     }
+    private void openTaskCreation() {
+        JFrame parent = (JFrame) SwingUtilities.getWindowAncestor(this);
+        TaskCreation dialog = new TaskCreation(parent);
+        dialog.setVisible(true);
 
+        dialog.getTaskTitle();
+        dialog.getTaskDescription();
+        dialog.getDueDateInput();
+
+        if (dialog.isConfirmed()) {
+            Tasks task = new Tasks(dialog.getTaskTitle(),
+                    dialog.getTaskDescription(),
+                    dialog.getDueDateInput());
+            taskManager.addTask(task);
+            listModel.addElement(task);
+        }
+    }
     //want this panel to function more like a widget
     //panel layout helper method
     private void setUpPanel() {
@@ -68,6 +90,8 @@ public class QuickTasks extends JPanel{
             timerPanel.startSession();
             System.out.println("Session has begun");
         });
+
+        addTaskButton.addActionListener(e -> openTaskCreation());
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -77,4 +101,5 @@ public class QuickTasks extends JPanel{
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
     }
+
 }

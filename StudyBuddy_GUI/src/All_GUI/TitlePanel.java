@@ -20,7 +20,7 @@ public class TitlePanel extends JPanel {
         setBackground(new Color (250,200,152));
 
         add(createMenu(), BorderLayout.WEST);
-        add(createUserArea, BorderLayout.CENTER);
+        add(createUserArea(), BorderLayout.CENTER);
         add(createWindowsButtons(), BorderLayout.EAST);
 
         enableDragtoMove();

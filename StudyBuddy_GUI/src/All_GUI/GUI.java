@@ -6,20 +6,25 @@ import java.awt.*;
 public class GUI extends JFrame implements MenuListener{
     private CardLayout cardLayout;
     private JPanel contentPanel;
-    private final TaskManager taskManager = new TaskManager();
+    private TaskManager taskManager;
+    private final AccountManager accountManager;
+    private TasksPage tasksPage;
 
-    public GUI() {
+    public GUI(AccountManager accountManager) {
         super("Study Buddy");
+        this.accountManager = accountManager;
 
         setUndecorated(true); //remove title bar and making custom
         setLayout(new BorderLayout());
         TimerPanel timerPanel = new TimerPanel();
+        taskManager = new TaskManager();
 
         //make cardlayout
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
         contentPanel.add(new BuddyPage(), "HOME");
-        contentPanel.add(new TasksPage(), "TASKS");
+        this.tasksPage = new TasksPage(taskManager);
+        contentPanel.add(this.tasksPage, "TASKS");
         contentPanel.add(new SettingsPage(), "SETTINGS");
         contentPanel.add(timerPanel, "TIMER");
 
@@ -27,7 +32,8 @@ public class GUI extends JFrame implements MenuListener{
         add(contentPanel, BorderLayout.CENTER);
 
         //add panels
-        add(new QuickTasks(timerPanel), BorderLayout.EAST);
+        QuickTasks quickTasks = new QuickTasks(taskManager, timerPanel);
+        add(quickTasks, BorderLayout.EAST);
         add(new TitlePanel(this, accountManager), BorderLayout.NORTH);
 
         setSize(1200, 800);
@@ -39,6 +45,7 @@ public class GUI extends JFrame implements MenuListener{
         cardLayout.show(contentPanel, "HOME");
     }
     public void onTasksSelected() {
+        tasksPage.refreshTaskList();
         cardLayout.show(contentPanel, "TASKS");
     }
     public void onSettingsSelected() {

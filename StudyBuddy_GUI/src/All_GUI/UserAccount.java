@@ -69,3 +69,4 @@ public class UserAccount {
             throw new RuntimeException("SHA-256 not available", e);
         }
     }
+}

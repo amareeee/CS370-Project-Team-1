@@ -18,9 +18,9 @@ import java.util.Map;
  */
 public class AccountManager {
 
-    private static final Path DATA_DIR      = Paths.get(System.getProperty("user.home"), ".studybuddy");
+    private static final Path DATA_DIR = Paths.get(System.getProperty("user.home"), ".studybuddy");
     private static final Path ACCOUNTS_FILE = DATA_DIR.resolve("accounts.txt");
-    private static final Path SESSION_FILE  = DATA_DIR.resolve("session.txt");
+    private static final Path SESSION_FILE = DATA_DIR.resolve("session.txt");
 
     private final Map<String, UserAccount> accounts = new HashMap<>();
     private UserAccount currentUser = null;
@@ -33,14 +33,21 @@ public class AccountManager {
 
     // ─────────────────────────────────────────── public API ──
 
-    public UserAccount getCurrentUser() { return currentUser; }
-    public boolean isLoggedIn()         { return currentUser != null; }
+    public UserAccount getCurrentUser() {
+        return currentUser;
+    }
 
-    /** Register a new account. Returns null on success, error string on failure. */
+    public boolean isLoggedIn() {
+        return currentUser != null;
+    }
+
+    /**
+     * Register a new account. Returns null on success, error string on failure.
+     */
     public String register(String username, String password) {
         username = username.trim();
-        if (username.isEmpty())     return "Username cannot be empty.";
-        if (password.length() < 6)  return "Password must be at least 6 characters.";
+        if (username.isEmpty()) return "Username cannot be empty.";
+        if (password.length() < 6) return "Password must be at least 6 characters.";
         if (accounts.containsKey(username.toLowerCase()))
             return "Username already taken.";
 
@@ -50,13 +57,15 @@ public class AccountManager {
         return null;
     }
 
-    /** Log in. Returns null on success, error string on failure. */
+    /**
+     * Log in. Returns null on success, error string on failure.
+     */
     public String login(String username, String password, boolean remember) {
         username = username.trim();
         if (username.isEmpty()) return "Please enter a username.";
 
         UserAccount account = accounts.get(username.toLowerCase());
-        if (account == null)                  return "No account found with that username.";
+        if (account == null) return "No account found with that username.";
         if (!account.checkPassword(password)) return "Incorrect password.";
 
         currentUser = account;
@@ -64,7 +73,9 @@ public class AccountManager {
         return null;
     }
 
-    /** Log out and erase the saved session. */
+    /**
+     * Log out and erase the saved session.
+     */
     public void logout() {
         currentUser = null;
         writeFile(SESSION_FILE, "");
@@ -104,7 +115,9 @@ public class AccountManager {
         }
     }
 
-    /** Save all accounts to accounts.txt. */
+    /**
+     * Save all accounts to accounts.txt.
+     */
     private void saveAccounts() {
         StringBuilder sb = new StringBuilder();
         for (UserAccount a : accounts.values()) {
@@ -116,7 +129,9 @@ public class AccountManager {
         writeFile(ACCOUNTS_FILE, sb.toString());
     }
 
-    /** Read session.txt and auto-login the saved user if their account still exists. */
+    /**
+     * Read session.txt and auto-login the saved user if their account still exists.
+     */
     private void restoreSession() {
         if (!Files.exists(SESSION_FILE)) return;
         try {
@@ -138,7 +153,9 @@ public class AccountManager {
         }
     }
 
-    /** Safely write a string to a file (UTF-8). */
+    /**
+     * Safely write a string to a file (UTF-8).
+     */
     private void writeFile(Path path, String content) {
         try {
             Files.write(path, content.getBytes(StandardCharsets.UTF_8),
@@ -148,3 +165,4 @@ public class AccountManager {
                     + path.getFileName() + ": " + e.getMessage());
         }
     }
+}
