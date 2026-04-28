@@ -17,12 +17,14 @@ public class GUI extends JFrame implements MenuListener{
         setUndecorated(true); //remove title bar and making custom
         setLayout(new BorderLayout());
         TimerPanel timerPanel = new TimerPanel();
-        taskManager = new TaskManager();
+
+        BuddyPage buddyPage = new BuddyPage();
+        taskManager = buddyPage.getTaskManager();
 
         //make cardlayout
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
-        contentPanel.add(new BuddyPage(), "HOME");
+        contentPanel.add(buddyPage, "HOME");
         this.tasksPage = new TasksPage(taskManager);
         contentPanel.add(this.tasksPage, "TASKS");
         contentPanel.add(new SettingsPage(), "SETTINGS");

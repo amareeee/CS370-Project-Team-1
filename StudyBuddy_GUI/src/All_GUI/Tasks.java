@@ -34,6 +34,11 @@ public class Tasks {
         return completed;
     }
 
+    //checks if task was marked complete before or after due date
+    public boolean CompletedOnTime() {
+        return completed && (dueDate == null || !LocalDate.now().isAfter(dueDate));
+    }
+
     //Setters
     //using setters instead of constructors so we can edit portions of task
     public void setTitle(String title) {
