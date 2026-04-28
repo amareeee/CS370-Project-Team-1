@@ -33,38 +33,11 @@ public class TitlePanel extends JPanel {
         if(accountManager.isLoggedIn()) {
             String username = accountManager.getCurrentUser().getUsername();
 
-            JLabel userLabel = new JLabel("username");
-            userLabel.setFont(new Font("Segoe Ui", Font.BOLD, 13));
+            JLabel userLabel = new JLabel(username);
+            userLabel.setFont(new Font("Segoe Ui", Font.BOLD, 15));
             userLabel.setForeground(new Color(90,50,10));
 
-            JButton logoutBtn = new JButton("Sign Out");
-            logoutBtn.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-            logoutBtn.setBackground(new Color(200, 100, 30));
-            logoutBtn.setForeground(Color.WHITE);
-            logoutBtn.setOpaque(true);
-            logoutBtn.setBorderPainted(false);
-            logoutBtn.setFocusPainted(false);
-            logoutBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-            logoutBtn.addActionListener(e -> {
-                int confirm = JOptionPane.showConfirmDialog(
-                        this,
-                        "Sign out of Study Buddy?",
-                        "Sign Out",
-                        JOptionPane.YES_NO_OPTION);
-                if (confirm == JOptionPane.YES_OPTION) {
-                    accountManager.logout();
-                    // Close main window and reopen login
-                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-                    frame.dispose();
-                    SwingUtilities.invokeLater(() ->
-                            new LoginPage(accountManager,
-                                    () -> SwingUtilities.invokeLater(() -> new GUI(accountManager))));
-                }
-            });
-
             panel.add(userLabel);
-            panel.add(logoutBtn);
         }
 
         return panel;

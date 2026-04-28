@@ -34,7 +34,7 @@ public class GUI extends JFrame implements MenuListener{
         add(contentPanel, BorderLayout.CENTER);
 
         //add panels
-        QuickTasks quickTasks = new QuickTasks(taskManager, timerPanel);
+        QuickTasks quickTasks = new QuickTasks(taskManager, timerPanel, accountManager);
         add(quickTasks, BorderLayout.EAST);
         add(new TitlePanel(this, accountManager), BorderLayout.NORTH);
 

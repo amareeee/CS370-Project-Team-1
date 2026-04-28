@@ -183,11 +183,9 @@ public class TimerPanel extends JPanel {
 
     private void handleStart() {
         if (running) return;
-        if (remaining == 0 || remaining == totalSeconds) {
-            totalSeconds = readInputs();
-            if (totalSeconds == 0) return;
-            remaining = totalSeconds;
-        }
+        totalSeconds = readInputs();
+        if (totalSeconds == 0) return;
+        remaining =  totalSeconds;
         running = true;
         startButton.setText("Running…");
         startButton.setEnabled(false);
@@ -265,7 +263,6 @@ public class TimerPanel extends JPanel {
 //called from Quick Tasks
     public void startSession() {
         handleReset();
-        swingTimer.start();
         handleStart();
     }
 }
