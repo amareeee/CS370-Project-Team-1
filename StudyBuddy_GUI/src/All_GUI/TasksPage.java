@@ -36,10 +36,18 @@ public class TasksPage extends JPanel {
                 if (e.getClickCount() == 2) {
                     Tasks selected = taskList.getSelectedValue();
                     if (selected != null) {
-                        selected.setCompleted(!selected.isCompleted());
+                        if (!selected.isCompleted()) {
+                            //routes through TaskManager so hp gain/loss runs
+                            taskManager.completeTask(selected);
+                        } else {
+                            //if already completed, no hp change
+                            selected.setCompleted(false);
+                        }
                         refreshTaskList();
                     }
                 }
+
+
             }
         });
     }
