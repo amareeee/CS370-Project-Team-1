@@ -12,10 +12,12 @@ public class QuickTasks extends JPanel{
     private TaskManager taskManager;
     private DefaultListModel<Tasks> listModel;
     private JList<Tasks> taskList;
+    private AccountManager accountManager;
 
-    public QuickTasks(TaskManager taskManager, TimerPanel timerpanel) {
+    public QuickTasks(TaskManager taskManager, TimerPanel timerPanel, AccountManager accountManager) {
         this.taskManager = taskManager;
         this.timerPanel = timerPanel;
+        this.accountManager = accountManager;
 
         backgroundImage = new ImageIcon(getClass().getResource("/resources/quicktasksBG.png")).getImage();
         //add any assets here
@@ -79,11 +81,38 @@ public class QuickTasks extends JPanel{
         title.setFont(new Font("Segoe UI", Font.BOLD, 18));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        Dimension buttonSize = new Dimension(200,40);
+        JButton logoutBtn = new JButton("Logout");
+        logoutBtn.setOpaque(true);
+        logoutBtn.setPreferredSize(buttonSize);
+        logoutBtn.setMaximumSize(buttonSize);
+        logoutBtn.setBackground(new Color(200,100,30));
+        logoutBtn.setForeground(Color.WHITE);
+        logoutBtn.setBorderPainted(false);
+        logoutBtn.setFocusPainted(false);
+        logoutBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        logoutBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        logoutBtn.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this, "Sign out of Study Buddy?", "Sign out", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                accountManager.logout();
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                frame.dispose();
+                SwingUtilities.invokeLater(() ->
+                    new LoginPage(accountManager,
+                            () -> SwingUtilities.invokeLater(() -> new GUI(accountManager))));
+            }
+        });
+
         add(title);
         add(Box.createVerticalStrut(15));
         add(addTaskButton);
         add(Box.createVerticalStrut(15));
         add(startSessionButton);
+        add(Box.createVerticalGlue()); //pushes logout to bottom
+        add(logoutBtn);
+        add(Box.createVerticalStrut(15));
     }
     private void addListeners() {
         startSessionButton.addActionListener(e -> {
