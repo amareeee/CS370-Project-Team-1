@@ -9,6 +9,7 @@ public class GUI extends JFrame implements MenuListener{
     private TaskManager taskManager;
     private final AccountManager accountManager;
     private TasksPage tasksPage;
+    private CalendarPage calendarPage;
 
     public GUI(AccountManager accountManager) {
         super("Study Buddy");
@@ -20,6 +21,8 @@ public class GUI extends JFrame implements MenuListener{
 
         BuddyPage buddyPage = new BuddyPage();
         taskManager = buddyPage.getTaskManager();
+        taskManager.setCalendarSync(accountManager.getCalendarSync());
+
 
         //make cardlayout
         cardLayout = new CardLayout();
@@ -29,6 +32,8 @@ public class GUI extends JFrame implements MenuListener{
         contentPanel.add(this.tasksPage, "TASKS");
         contentPanel.add(new SettingsPage(), "SETTINGS");
         contentPanel.add(timerPanel, "TIMER");
+        this.calendarPage = new CalendarPage(accountManager, taskManager);
+        contentPanel.add(calendarPage, "CALENDAR");
 
         //add contentpanel to frame
         add(contentPanel, BorderLayout.CENTER);
@@ -55,6 +60,10 @@ public class GUI extends JFrame implements MenuListener{
     }
     public void onTimerSelected() {
         cardLayout.show(contentPanel, "TIMER");
+    }
+    public void onCalendarSelected() {
+        calendarPage.refresh();
+        cardLayout.show(contentPanel, "CALENDAR");
     }
 }
 

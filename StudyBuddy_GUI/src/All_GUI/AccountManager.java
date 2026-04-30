@@ -25,6 +25,9 @@ public class AccountManager {
     private final Map<String, UserAccount> accounts = new HashMap<>();
     private UserAccount currentUser = null;
 
+    //one sync instance shared across the app
+    private  final GoogleCalendarSync calendarSync = new GoogleCalendarSync();
+
     public AccountManager() {
         ensureDataDir();
         loadAccounts();
@@ -40,6 +43,8 @@ public class AccountManager {
     public boolean isLoggedIn() {
         return currentUser != null;
     }
+
+    public GoogleCalendarSync getCalendarSync() { return calendarSync; }
 
     /**
      * Register a new account. Returns null on success, error string on failure.
@@ -77,6 +82,9 @@ public class AccountManager {
      * Log out and erase the saved session.
      */
     public void logout() {
+        if (currentUser != null && calendarSync.isConnected()){
+            calendarSync.disconnect(currentUser.getUsername());
+        }
         currentUser = null;
         writeFile(SESSION_FILE, "");
     }

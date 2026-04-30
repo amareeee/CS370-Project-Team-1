@@ -10,6 +10,7 @@ public class TitlePanel extends JPanel {
     private MenuListener listener;
     private AccountManager accountManager;
     private Point initialClick;
+
     public TitlePanel(MenuListener listener, AccountManager accountManager) {
         //set up listener
         this.listener = listener;
@@ -143,16 +144,19 @@ public class TitlePanel extends JPanel {
         JMenuItem tasks = new JMenuItem("Tasks");
         JMenuItem settings = new JMenuItem("Settings");
         JMenuItem timer = new JMenuItem("Timer");
+        JMenuItem calendar = new JMenuItem("Calendar");
         //adding buttons to menu
         menu.add(home);
         menu.add(tasks);
         menu.add(settings);
         menu.add(timer);
+        menu.add(calendar);
         //set up listener
         home.addActionListener(e -> listener.onHomeSelected());
         tasks.addActionListener(e -> listener.onTasksSelected());
         settings.addActionListener(e -> listener.onSettingsSelected());
         timer.addActionListener(e -> listener.onTimerSelected());
+        calendar.addActionListener(e -> listener.onCalendarSelected());
 
         //add action Listener
         button.addActionListener(e ->

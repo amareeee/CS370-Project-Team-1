@@ -29,4 +29,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 
+# Google API credentials
+src/resources/credentials.json
 libs/
