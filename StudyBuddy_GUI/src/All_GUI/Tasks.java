@@ -76,7 +76,7 @@ public class Tasks {
         if (completed) {
             return "✔ " + title;
         } else {
-            return title + "Due Date: " + dueDate;
+            return title + " Due Date: " + dueDate;
         }
     }
 }

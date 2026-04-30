@@ -2,11 +2,10 @@ package All_GUI;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class TaskManager {
     private List<Tasks> tasks = new ArrayList<>();
+    private GoogleCalendarSync calendarSync;
     private Healthbar healthbar;
     private BuddyPage buddyPage;
 
@@ -16,55 +15,45 @@ public class TaskManager {
         this.buddyPage = buddyPage;
     }
 
+    public void setCalendarSync(GoogleCalendarSync calendarSync) {
+        this.calendarSync = calendarSync;
+    }
+
     public void addTask(Tasks task) {
         tasks.add(task);
 
-        //immediately checks if task created is overdue
-        if (task.isOverdue() && !task.isPenalty()) {
-            int curr = healthbar.getCurrentHealth();
-            healthbar.setHealth(curr - 10); //overdue task -> -10% hp
-            buddyPage.updateImg(healthbar.getCurrentHealth());
-            task.setPenalty(true);
+        if (calendarSync != null && calendarSync.isConnected()) {
+            calendarSync.syncTask(task);
         }
     }
+
     public void removeTask(Tasks task) {
         tasks.remove(task);
-    }
-    public List<Tasks> getAllTasks() {
-        return tasks;
-    }
-
-    //gets called when user marks task complete
-    //checks if task was completed on time and adjusts buddy hp
-    public void completeTask(Tasks task) {
-        task.setCompleted(true); //marks task done
-        int current = healthbar.getCurrentHealth(); //gets buddy's current gp
-
-        if (task.CompletedOnTime()) {
-            healthbar.setHealth(current + 10); //complete on time -> +10% hp
-        } else {
-            healthbar.setHealth(current + 5); //late completion -> +5% hp
+        if (calendarSync != null && calendarSync.isConnected()) {
+            calendarSync.deleteTaskEvent(task);
         }
-        //checks if creature img needs to switch whenever hp changes
-        buddyPage.updateImg(healthbar.getCurrentHealth());
     }
+        public List<Tasks> getAllTasks () {
+            return tasks;
+        }
 
-    public void OverdueCheck() {
-        Timer timer = new Timer(true);
+        //gets called when user marks task complete
+        //checks if task was completed on time and adjusts buddy hp
+        public void completeTask(Tasks task){
+            task.setCompleted(true); //marks task done
+            int current = healthbar.getCurrentHealth(); //gets buddy's current gp
 
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                for (Tasks task : tasks) {
-                    if (task.isOverdue() && !task.isPenalty()) {
-                        int curr = healthbar.getCurrentHealth();
-                        healthbar.setHealth(curr - 10);; //overdue task present -> -10% hp
-                        buddyPage.updateImg(healthbar.getCurrentHealth());
 
-                        task.setPenalty(true);
-                    }
-                }
+            if (task.CompletedOnTime()) {
+                healthbar.setHealth(current + 10); //complete on time -> +10% hp
+            } else {
+                healthbar.setHealth(current - 10); //late completion -> -10% hp
             }
-        }, 0, 86400000); //runs check immediately when task is created
+            //checks if creature img needs to switch whenever hp changes
+            buddyPage.updateImg(healthbar.getCurrentHealth());
+
+            if(calendarSync != null && calendarSync.isConnected()) {
+                calendarSync.syncTask(task);
+        }
     }
 }

@@ -5,4 +5,5 @@ public interface MenuListener {
     void onTasksSelected();
     void onSettingsSelected();
     void onTimerSelected();
+    void onCalendarSelected();
 }

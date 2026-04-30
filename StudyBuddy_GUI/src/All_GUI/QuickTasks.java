@@ -8,6 +8,7 @@ public class QuickTasks extends JPanel{
     private Image backgroundImage;
     private JButton addTaskButton;
     private JButton startSessionButton;
+    private JButton calendarButton;
     private TimerPanel timerPanel;
     private TaskManager taskManager;
     private DefaultListModel<Tasks> listModel;
@@ -39,7 +40,7 @@ public class QuickTasks extends JPanel{
                     dialog.getTaskDescription(),
                     dialog.getDueDateInput());
             taskManager.addTask(task);
-            listModel.addElement(task);
+            if (listModel != null) listModel.addElement(task);
         }
     }
     //want this panel to function more like a widget
@@ -82,6 +83,22 @@ public class QuickTasks extends JPanel{
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         Dimension buttonSize = new Dimension(200,40);
+        //calendar connect/status button
+        calendarButton = new JButton(getCalendarButtonLabel());
+        calendarButton.setOpaque(true);
+        calendarButton.setPreferredSize(buttonSize);
+        calendarButton.setMaximumSize(buttonSize);
+        calendarButton.setBackground(accountManager.getCalendarSync().isConnected()
+                ? new Color(34, 139, 34) : new Color(100, 149, 237));
+        calendarButton.setForeground(Color.WHITE);
+        calendarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        calendarButton.setBorderPainted(false);
+        calendarButton.setFocusPainted(false);
+        calendarButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        calendarButton.addActionListener(e -> handleCalendarButton());
+
+
+
         JButton logoutBtn = new JButton("Logout");
         logoutBtn.setOpaque(true);
         logoutBtn.setPreferredSize(buttonSize);
@@ -110,10 +127,74 @@ public class QuickTasks extends JPanel{
         add(addTaskButton);
         add(Box.createVerticalStrut(15));
         add(startSessionButton);
-        add(Box.createVerticalGlue()); //pushes logout to bottom
+        add(Box.createVerticalGlue());//pushes logout to bottom
+        add(calendarButton);
+        add(Box.createVerticalStrut(15));
         add(logoutBtn);
         add(Box.createVerticalStrut(15));
     }
+
+    private void handleCalendarButton() {
+        GoogleCalendarSync sync = accountManager.getCalendarSync();
+        String username = accountManager.getCurrentUser().getUsername();
+
+        if (sync.isConnected()) {
+
+            String[] options = {"Open Calendar", "Disconnect", "Cancel"};
+            int choice = JOptionPane.showOptionDialog(this, "Google Calender is connected."
+            , "Google Calendar", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+            if (choice == 0) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                if (frame instanceof GUI) ((GUI)frame).onCalendarSelected();
+            } else if (choice == 1) {
+                sync.disconnect(username);
+                refreshCalendarButton();
+            }
+        } else{
+            calendarButton.setEnabled(false);
+            calendarButton.setText("Connecting...");
+
+            SwingWorker<String, Void> worker = new SwingWorker<>(){
+                @Override
+                protected String doInBackground() {
+                    return sync.connect(username);
+                }
+                @Override
+                protected void done() {
+                    try{
+                        String error = get();
+                        if (error != null) {
+                            JOptionPane.showMessageDialog(QuickTasks.this, error, "Connection Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            sync.syncAllTasks(taskManager);
+                        }
+                    } catch (Exception ex){
+                        JOptionPane.showMessageDialog(QuickTasks.this, ex, "Connection Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                    refreshCalendarButton();
+                }
+            };
+            worker.execute();
+        }
+    }
+
+    //update the calendar button text
+    public void refreshCalendarButton() {
+        boolean connected = accountManager.getCalendarSync().isConnected();
+        calendarButton.setText(getCalendarButtonLabel());
+        calendarButton.setBackground(connected ? new Color(34, 139, 34) : new Color(100, 149, 237));
+        calendarButton.setEnabled(true);
+        revalidate();
+        repaint();
+    }
+
+    private String getCalendarButtonLabel() {
+        return accountManager.getCalendarSync().isConnected()
+                ? "✔ Google Calendar"
+                : "Connect Google Calendar";
+    }
+
     private void addListeners() {
         startSessionButton.addActionListener(e -> {
             timerPanel.startSession();
