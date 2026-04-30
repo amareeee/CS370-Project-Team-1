@@ -39,6 +39,20 @@ public class Tasks {
         return completed && (dueDate == null || !LocalDate.now().isAfter(dueDate));
     }
 
+    public boolean penalty = false;
+
+    public boolean isPenalty() {
+        return penalty;
+    }
+
+    public void setPenalty(boolean penalty) {
+        this.penalty = penalty;
+    }
+
+    //returns true if task is overdue
+    public boolean isOverdue() {
+        return !completed && dueDate != null && LocalDate.now().isAfter(dueDate);
+    }
     //Setters
     //using setters instead of constructors so we can edit portions of task
     public void setTitle(String title) {
