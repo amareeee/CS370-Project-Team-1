@@ -66,7 +66,7 @@ public class TaskManager {
             buddyPage.updateImg(healthbar.getCurrentHealth());
 
             if(calendarSync != null && calendarSync.isConnected()) {
-                calendarSync.syncTask(task);
+                calendarSync.deleteTaskEvent(task);
             }
         }
 
