@@ -8,6 +8,8 @@ public class Tasks {
     private String description;
     private boolean completed;
     private LocalDate dueDate;
+    private boolean penalty = false;
+
 
     //constructor
     public Tasks(String title, String description, LocalDate dueDate) {
@@ -39,10 +41,13 @@ public class Tasks {
         return completed && (dueDate == null || !LocalDate.now().isAfter(dueDate));
     }
 
-    public boolean penalty = false;
 
     public boolean isPenalty() {
         return penalty;
+    }
+
+    public boolean CompletedEarly() {
+        return completed && dueDate != null && LocalDate.now().isBefore(dueDate);
     }
 
     public void setPenalty(boolean penalty) {
